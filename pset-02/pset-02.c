@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 // PGM 1
-void salesTax() {
+int salesTax() {
     const double STATE_SALES_TAX = 0.04;
     const double COUNTY_SALES_TAX = 0.02;
 
@@ -17,10 +17,11 @@ void salesTax() {
     printf("State sales tax: $%lf\n", stateTaxAmount);
     printf("County sales tax: $%lf\n", countyTaxAmount);
     printf("Total amount: $%lf\n", totalAmount);
+    return 0;
 }
 
 // PGM 2
-void tipTaxTotal() {
+int tipTaxTotal() {
     // Ask for user input for the charge of the food
     const double TIP = 0.15;
     const double SALES_TAX = 0.07;
@@ -38,10 +39,11 @@ void tipTaxTotal() {
     printf("Sales tax: $%lf\n", salesTaxAmount);
     printf("Total amount: $%lf\n", totalAmount);
 
+    return 0;
 }
 
 // PGM 3
-void stockTransactionProgram() {
+int stockTransactionProgram() {
    const int SHARES = 2500;
    const double SHARE_PRICE = 32.87;
    const double COMMISSION_RATE = 0.02;
@@ -62,7 +64,7 @@ void stockTransactionProgram() {
     printf("Amount the stock sold for: $%lf\n", amountSold);
     printf("Commission paid on the sale: $%lf\n", commissionPaidForSell);
     printf("Profit (or loss if negative): $%lf\n", profit);
-
+    return 0;
 }
 
 

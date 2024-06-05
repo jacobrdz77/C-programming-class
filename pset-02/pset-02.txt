@@ -5,13 +5,108 @@ PSET: 02
 =======================================================================
 PGM Source Code #1
 -----------------------------------------------------------------------
-<PGM #1 Output goes here ... >
+#include <stdio.h>
+
+return main() {
+    const double STATE_SALES_TAX = 0.04;
+    const double COUNTY_SALES_TAX = 0.02;
+
+    double purchaseAmount;
+    printf("Enter purchase amount: ");
+    scanf("%lf", &purchaseAmount);   
+
+    double stateTaxAmount = purchaseAmount * STATE_SALES_TAX;
+    double countyTaxAmount = purchaseAmount * COUNTY_SALES_TAX;
+    double totalAmount = purchaseAmount + stateTaxAmount + countyTaxAmount;
+
+    printf("Purchase amount: $%lf\n", purchaseAmount);
+    printf("State sales tax: $%lf\n", stateTaxAmount);
+    printf("County sales tax: $%lf\n", countyTaxAmount);
+    printf("Total amount: $%lf\n", totalAmount);
+
+    return 0;
+}
+
 ==============================================
-PGM #2 Source Code #2
+PGM #1 Output
 -----------------------------------------------------------------------
-<PGM #2 Output goes here ... >
+
+Enter purchase amount: 147.53
+Purchase amount: $147.530000
+State sales tax: $5.901200
+County sales tax: $2.950600
+Total amount: $156.381800
+
 ==============================================
-PGM #3 Source Code #3
+PGM Source Code #2
 -----------------------------------------------------------------------
-<PGM #3 Output goes here ... >
+#include <stdio.h>
+
+int main() {
+    const double TIP = 0.15;
+    const double SALES_TAX = 0.07;
+
+    double purchaseAmount;
+    printf("Enter meal purchase amount: ");
+    scanf("%lf", &purchaseAmount);   
+
+    double tipAmount = purchaseAmount * TIP;
+    double salesTaxAmount = purchaseAmount * SALES_TAX;
+    double totalAmount = purchaseAmount + tipAmount + salesTaxAmount;
+
+    printf("Meal purchase amount: $%lf\n", purchaseAmount);
+    printf("Tip amount: $%lf\n", tipAmount);
+    printf("Sales tax: $%lf\n", salesTaxAmount);
+    printf("Total amount: $%lf\n", totalAmount);
+
+    return 0;
+}
+==============================================
+PGM #2 Output
+-----------------------------------------------------------------------
+
+Enter meal purchase amount: 103.97
+Meal purchase amount: $103.970000
+Tip amount: $15.595500
+Sales tax: $7.277900
+Total amount: $126.843400
+
+==============================================
+PGM Source Code #3
+-----------------------------------------------------------------------
+#include <stdio.h>
+
+int main() {
+   const int SHARES = 2500;
+   const double SHARE_PRICE = 32.87;
+   const double COMMISSION_RATE = 0.02;
+
+   double amountPaid = SHARES * SHARE_PRICE;
+   double commissionPaidForPurchase = amountPaid * COMMISSION_RATE;
+
+   const int SHARES_SOLD = 1000;
+   const double SHARES_SOLD_PRICE = 33.92;
+   double amountSold = SHARES_SOLD * SHARES_SOLD_PRICE;
+   double commissionPaidForSell = amountSold * COMMISSION_RATE;
+
+   double profit = (amountSold - amountPaid) - (commissionPaidForPurchase + commissionPaidForSell);
+
+    printf("Amount paid for the stocks: $%lf\n", amountPaid);
+    printf("Commission paid on the purchase: $%lf\n", commissionPaidForPurchase);
+    printf("Amount the stock sold for: $%lf\n", amountSold);
+    printf("Commission paid on the sale: $%lf\n", commissionPaidForSell);
+    printf("Profit (or loss if negative): $%lf\n", profit);
+
+    return 0;
+}
+==============================================
+PGM #3 Output
+-----------------------------------------------------------------------
+
+Amount paid for the stocks: $82175.000000
+Commission paid on the purchase: $1643.500000
+Amount the stock sold for: $33920.000000
+Commission paid on the sale: $678.400000
+Profit (or loss if negative): $-50576.900000
+
 ==============================================
