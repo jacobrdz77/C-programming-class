@@ -13,10 +13,10 @@ int salesTax() {
     double countyTaxAmount = purchaseAmount * COUNTY_SALES_TAX;
     double totalAmount = purchaseAmount + stateTaxAmount + countyTaxAmount;
 
-    printf("Purchase amount: $%lf\n", purchaseAmount);
-    printf("State sales tax: $%lf\n", stateTaxAmount);
-    printf("County sales tax: $%lf\n", countyTaxAmount);
-    printf("Total amount: $%lf\n", totalAmount);
+    printf("Purchase amount: $%.2lf\n", purchaseAmount);
+    printf("State sales tax: $%.2lf\n", stateTaxAmount);
+    printf("County sales tax: $%.2lf\n", countyTaxAmount);
+    printf("Total amount: $%.2lf\n", totalAmount);
     return 0;
 }
 
@@ -34,10 +34,10 @@ int tipTaxTotal() {
     double salesTaxAmount = purchaseAmount * SALES_TAX;
     double totalAmount = purchaseAmount + tipAmount + salesTaxAmount;
 
-    printf("Meal purchase amount: $%lf\n", purchaseAmount);
-    printf("Tip amount: $%lf\n", tipAmount);
-    printf("Sales tax: $%lf\n", salesTaxAmount);
-    printf("Total amount: $%lf\n", totalAmount);
+    printf("Meal purchase amount: $%.2lf\n", purchaseAmount);
+    printf("Tip amount: $%.2lf\n", tipAmount);
+    printf("Sales tax: $%.2lf\n", salesTaxAmount);
+    printf("Total amount: $%.2lf\n", totalAmount);
 
     return 0;
 }
@@ -59,11 +59,11 @@ int stockTransactionProgram() {
    double profit = (amountSold - amountPaid) - (commissionPaidForPurchase + commissionPaidForSell);
 
 
-    printf("Amount paid for the stocks: $%lf\n", amountPaid);
-    printf("Commission paid on the purchase: $%lf\n", commissionPaidForPurchase);
-    printf("Amount the stock sold for: $%lf\n", amountSold);
-    printf("Commission paid on the sale: $%lf\n", commissionPaidForSell);
-    printf("Profit (or loss if negative): $%lf\n", profit);
+    printf("Amount paid for the stocks: $%.2lf\n", amountPaid);
+    printf("Commission paid on the purchase: $%.2lf\n", commissionPaidForPurchase);
+    printf("Amount the stock sold for: $%.2lf\n", amountSold);
+    printf("Commission paid on the sale: $%.2lf\n", commissionPaidForSell);
+    printf("Profit (or loss if negative): $%.2lf\n", profit);
     return 0;
 }
 

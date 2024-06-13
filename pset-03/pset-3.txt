@@ -1,0 +1,65 @@
+=======================================================================
+Jacob Rodriguez
+COSC1420 910
+PSET: 03
+=======================================================================
+PGM Source Code #1
+-----------------------------------------------------------------------
+#include <stdio.h>
+
+int main() {
+
+    unsigned char a, r, g, b;
+    int tempA, tempR, tempG, tempB;
+    printf("Enter values for a, r, g, and b: ");
+    scanf("%d %d %d %d", &tempA, &tempR, &tempG, &tempB);
+
+    a = (char)tempA;
+    r = (char)tempR;
+    g = (char)tempG;
+    b = (char)tempB;
+
+    // Combine into one variable using bitwise operations
+    // color has 4 bytes (32 bits)
+    // each color has 1 byte (8 bits)
+    // start at 24 and fill up the space with each value in the right space;
+    unsigned int color = (a << 24) | (r << 16) | (g << 8) | b;
+
+    // Output as a hexadecimal
+    printf("Color value: %#x", color);
+
+
+    return 0;
+}
+
+==============================================
+PGM #1 Output
+-----------------------------------------------------------------------
+Enter values for a, r, g, and b: 39 59 120 200
+Color value: 0x273b78c8
+==============================================
+PGM Source Code #2
+-----------------------------------------------------------------------
+#include <stdio.h>
+
+int main() {
+
+    return 0;
+}
+==============================================
+PGM #2 Output
+-----------------------------------------------------------------------
+
+==============================================
+PGM Source Code #3
+-----------------------------------------------------------------------
+#include <stdio.h>
+
+int main() {
+    return 0;
+}
+==============================================
+PGM #3 Output
+-----------------------------------------------------------------------
+
+==============================================

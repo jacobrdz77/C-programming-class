@@ -19,10 +19,10 @@ return main() {
     double countyTaxAmount = purchaseAmount * COUNTY_SALES_TAX;
     double totalAmount = purchaseAmount + stateTaxAmount + countyTaxAmount;
 
-    printf("Purchase amount: $%lf\n", purchaseAmount);
-    printf("State sales tax: $%lf\n", stateTaxAmount);
-    printf("County sales tax: $%lf\n", countyTaxAmount);
-    printf("Total amount: $%lf\n", totalAmount);
+    printf("Purchase amount: $%.2lf\n", purchaseAmount);
+    printf("State sales tax: $%.2lf\n", stateTaxAmount);
+    printf("County sales tax: $%.2lf\n", countyTaxAmount);
+    printf("Total amount: $%.2lf\n", totalAmount);
 
     return 0;
 }
@@ -32,10 +32,10 @@ PGM #1 Output
 -----------------------------------------------------------------------
 
 Enter purchase amount: 147.53
-Purchase amount: $147.530000
-State sales tax: $5.901200
-County sales tax: $2.950600
-Total amount: $156.381800
+Purchase amount: $147.53
+State sales tax: $5.90
+County sales tax: $2.95
+Total amount: $156.38
 
 ==============================================
 PGM Source Code #2
@@ -55,9 +55,9 @@ int main() {
     double totalAmount = purchaseAmount + tipAmount + salesTaxAmount;
 
     printf("Meal purchase amount: $%lf\n", purchaseAmount);
-    printf("Tip amount: $%lf\n", tipAmount);
-    printf("Sales tax: $%lf\n", salesTaxAmount);
-    printf("Total amount: $%lf\n", totalAmount);
+    printf("Tip amount: $%.2lf\n", tipAmount);
+    printf("Sales tax: $%.2lf\n", salesTaxAmount);
+    printf("Total amount: $%.2lf\n", totalAmount);
 
     return 0;
 }
@@ -66,10 +66,10 @@ PGM #2 Output
 -----------------------------------------------------------------------
 
 Enter meal purchase amount: 103.97
-Meal purchase amount: $103.970000
-Tip amount: $15.595500
-Sales tax: $7.277900
-Total amount: $126.843400
+Meal purchase amount: $103.97
+Tip amount: $15.59
+Sales tax: $7.27
+Total amount: $126.84
 
 ==============================================
 PGM Source Code #3
@@ -91,11 +91,11 @@ int main() {
 
    double profit = (amountSold - amountPaid) - (commissionPaidForPurchase + commissionPaidForSell);
 
-    printf("Amount paid for the stocks: $%lf\n", amountPaid);
-    printf("Commission paid on the purchase: $%lf\n", commissionPaidForPurchase);
-    printf("Amount the stock sold for: $%lf\n", amountSold);
-    printf("Commission paid on the sale: $%lf\n", commissionPaidForSell);
-    printf("Profit (or loss if negative): $%lf\n", profit);
+    printf("Amount paid for the stocks: $%.2lf\n", amountPaid);
+    printf("Commission paid on the purchase: $%.2lf\n", commissionPaidForPurchase);
+    printf("Amount the stock sold for: $%.2lf\n", amountSold);
+    printf("Commission paid on the sale: $%.2lf\n", commissionPaidForSell);
+    printf("Profit (or loss if negative): $%.2lf\n", profit);
 
     return 0;
 }
@@ -103,10 +103,10 @@ int main() {
 PGM #3 Output
 -----------------------------------------------------------------------
 
-Amount paid for the stocks: $82175.000000
-Commission paid on the purchase: $1643.500000
-Amount the stock sold for: $33920.000000
-Commission paid on the sale: $678.400000
-Profit (or loss if negative): $-50576.900000
+Amount paid for the stocks: $82175.00
+Commission paid on the purchase: $1643.50
+Amount the stock sold for: $33920.00
+Commission paid on the sale: $678.40
+Profit (or loss if negative): $-50576.90
 
 ==============================================
