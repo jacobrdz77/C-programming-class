@@ -3,7 +3,7 @@
 int main() {
 
     unsigned char a, r, g, b;
-    int tempA, tempR, tempG, tempB;
+    unsigned int tempA, tempR, tempG, tempB;
     printf("Enter values for a, r, g, and b: ");
     scanf("%d %d %d %d", &tempA, &tempR, &tempG, &tempB);
 

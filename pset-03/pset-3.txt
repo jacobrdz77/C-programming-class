@@ -41,15 +41,67 @@ Color value: 0x273b78c8
 PGM Source Code #2
 -----------------------------------------------------------------------
 #include <stdio.h>
+#include <math.h>
 
 int main() {
+    char month[9];
+    char year[4];
+    double amountCollected;
+    double stateSalesTax;
+    double countySalesTax;
+
+    printf("Enter month: ");
+    scanf("%s", month);
+    printf("Enter year: ");
+    scanf(" %s", year);
+    printf("Enter amount collected: ");
+    scanf(" %lf", &amountCollected);
+    printf("County Sales Tax: ");
+    scanf(" %lf", &countySalesTax);
+    printf("State Sales Tax: ");
+    scanf(" %lf", &stateSalesTax);
+    printf("\n");
+
+    // To convert % to decimal
+    stateSalesTax *= 0.01;
+    countySalesTax *= 0.01;
+
+    double stateSalesTaxAmount = amountCollected * stateSalesTax;
+    double countySalesTaxAmount = amountCollected * countySalesTax;
+    double totalSalesTaxAmount = stateSalesTaxAmount + countySalesTaxAmount;
+
+    double sales = (amountCollected) / (1 + stateSalesTax + countySalesTax);    
+
+    // Month Report
+    printf("Month: %s %s\n", month, year);
+    printf("-----------------------------\n");
+    printf("Total Collected:  $%10.2lf\n", amountCollected);
+    printf("Sales:            $%10.2lf\n", sales);
+    printf("County Sales Tax: $%10.2lf\n", countySalesTaxAmount);
+    printf("State Sales Tax:  $%10.2lf\n", stateSalesTaxAmount);
+    printf("Total Sales Tax:  $%10.2lf\n", totalSalesTaxAmount);
+    printf("-----------------------------");
 
     return 0;
 }
+
 ==============================================
 PGM #2 Output
 -----------------------------------------------------------------------
+Enter month: May
+Enter year: 2023
+Enter amount collected: 133597.48
+County Sales Tax: 2.5
+State Sales Tax: 6.0
 
+Month:  2023
+-----------------------------
+Total Collected:  $ 133597.48
+Sales:            $ 123131.32
+County Sales Tax: $   3339.94
+State Sales Tax:  $   8015.85
+Total Sales Tax:  $  11355.79
+-----------------------------
 ==============================================
 PGM Source Code #3
 -----------------------------------------------------------------------
