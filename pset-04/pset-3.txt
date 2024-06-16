@@ -1,0 +1,263 @@
+=======================================================================
+Jacob Rodriguez
+COSC1420 910
+PSET: 04
+=======================================================================
+PGM Source Code #1
+-----------------------------------------------------------------------
+
+#include <stdio.h>
+#include <math.h>
+
+double calculateMonthlyPayment(double principle, float annualInterestRate, short numberOfPayments) {
+  double monthlyRate = annualInterestRate / 12;
+
+  return (monthlyRate * principle) / (1 - pow(1 + monthlyRate, (-1) * numberOfPayments));
+}
+
+int main() {
+  double principle;
+  double annualInterestRate;
+  int numberOfPayments;
+
+  while (1) {
+  printf("Enter the principle (USD):");
+  scanf("%lf", &principle);
+  printf("Enter the # of monthy payments:");
+  scanf(" %d", &numberOfPayments);
+  printf("Enter the APR (%%):");
+  scanf(" %lf%%", &annualInterestRate);
+  annualInterestRate *= 0.01;
+  printf("\n\n");
+
+  double monthlyPayment = calculateMonthlyPayment(principle, annualInterestRate, numberOfPayments);
+  double totalAmountOwed = monthlyPayment * numberOfPayments;
+  double interestPaid = totalAmountOwed - principle;
+
+  printf("Loan Amount:          $%10.2lf\n", principle);
+  printf("Annual Interest Rate: $%10.2lf%%\n", annualInterestRate * 100);
+  printf("Number of Payments:    %10d\n", numberOfPayments);
+  printf("Monthly Payment:      $%10.2lf\n", monthlyPayment);
+  printf("Amount Paid Back:     $%10.2lf\n", totalAmountOwed);
+  printf("Interest Paid:        $%10.2lf\n", interestPaid);
+  printf("\n\n\n");
+  }
+}
+
+==============================================
+PGM #1 Output
+-----------------------------------------------------------------------
+
+Enter the principle (USD):40000
+Enter the # of monthy payments:60
+Enter the APR (%):4.2
+
+
+Loan Amount:          $  40000.00
+Annual Interest Rate: $      4.20%
+Number of Payments:            60
+Monthly Payment:      $    740.28
+Amount Paid Back:     $  44416.60
+Interest Paid:        $   4416.60
+
+
+
+Enter the principle (USD):40000
+Enter the # of monthy payments:48
+Enter the APR (%):4.2
+
+
+Loan Amount:          $  40000.00
+Annual Interest Rate: $      4.20%
+Number of Payments:            48
+Monthly Payment:      $    906.75
+Amount Paid Back:     $  43523.83
+Interest Paid:        $   3523.83
+
+
+
+Enter the principle (USD):40000
+Enter the # of monthy payments:36
+Enter the APR (%):4.54
+
+
+Loan Amount:          $  40000.00
+Annual Interest Rate: $      4.54%
+Number of Payments:            36
+Monthly Payment:      $   1190.59
+Amount Paid Back:     $  42861.32
+Interest Paid:        $   2861.32
+=================================================
+PGM Source Code #2
+-----------------------------------------------------------------------
+#include <stdio.h>
+
+double calculateHousingCosts(double initialCost, double annualFuelCost, float taxRate)
+{
+    taxRate *= 0.01;
+    // Add (initial + fuel cost) * 5 (years)
+    double amountAfterFiveyears = (initialCost) + (annualFuelCost * 5);
+
+    // Calculate Tax amount for 5 years
+    double taxAmount = (initialCost * taxRate) * 5;
+
+    // Add Tax to amountWFuelForFiveYears
+    return amountAfterFiveyears + taxAmount;
+}
+
+int main()
+{
+    double initialCost, annualFuelCost;
+    float taxRate;
+
+    while (1)
+    {
+
+        printf("Enter home cost (USD):");
+        scanf("%lf", &initialCost);
+        printf("Enter the tax rate(%%):");
+        scanf(" %f", &taxRate);
+        printf("Enter annual fuel cost (USD):");
+        scanf(" %lf", &annualFuelCost);
+        printf("=======================\n");
+
+        double result = calculateHousingCosts(initialCost, annualFuelCost, taxRate);
+        printf("Your initial cost of ownership is $%.2lf\n", result);        
+    }
+
+    return 0;
+}
+==============================================
+PGM #2 Output
+-----------------------------------------------------------------------
+Enter home cost (USD):67000
+Enter the tax rate(%):2.5
+Enter annual fuel cost (USD):2300
+=======================
+Your initial cost of ownership is $86875.00
+
+Enter home cost (USD):62000
+Enter the tax rate(%):2.5
+Enter annual fuel cost (USD):2500
+=======================
+Your initial cost of ownership is $82250.00
+
+Enter home cost (USD):75000
+Enter the tax rate(%):2.0
+Enter annual fuel cost (USD):1850
+=======================
+Your initial cost of ownership is $91750.00
+==============================================
+PGM Source Code #3
+-----------------------------------------------------------------------
+#include <stdio.h>
+
+const float PKG_A_BASE_RATE = 15;
+const unsigned short PKG_A_COVERED_HOURS = 50;
+const float PKG_A_OVERAGE_RATE = 2.0;
+const float PKG_B_BASE_RATE = 20;
+const unsigned short PKG_B_COVERED_HOURS = 100;
+const float PKG_B_OVERAGE_RATE = 1.5;
+const float PKG_C_BASE_RATE = 25;
+const unsigned short PKG_C_COVERED_HOURS = 150;
+const float PKG_C_OVERAGE_RATE = 1.0;
+
+float calculatePkgA(unsigned short hours)
+{
+    float total = PKG_A_BASE_RATE;
+
+    if (hours > PKG_A_COVERED_HOURS)
+    {
+        unsigned short additionalhours = hours - PKG_A_COVERED_HOURS;
+        total += additionalhours * PKG_A_OVERAGE_RATE;
+    }
+    return total;
+}
+float calculatePkgB(unsigned short hours)
+{
+
+    float total = PKG_B_BASE_RATE;
+
+    if (hours > PKG_B_COVERED_HOURS)
+    {
+        unsigned short additionalhours = hours - PKG_B_COVERED_HOURS;
+        total = total + (float)(additionalhours * PKG_B_OVERAGE_RATE);
+    }
+    return total;
+}
+float calculatePkgC(short unsigned hours)
+{
+    float total = PKG_C_BASE_RATE;
+
+    if (hours > PKG_C_COVERED_HOURS)
+    {
+        unsigned short additionalhours = hours - PKG_C_COVERED_HOURS;
+        total += additionalhours * PKG_C_OVERAGE_RATE;
+    }
+    return total;
+}
+
+float calculatePackage(
+    float baseRate,
+    unsigned short coveredHours,
+    float overageRate,
+    unsigned short hoursConsumed)
+{
+    float total = baseRate;
+
+    if (hoursConsumed > coveredHours)
+    {
+        unsigned short additionalHours = hoursConsumed - coveredHours;
+        total += additionalHours * overageRate;
+    }
+
+    return total;
+}
+
+unsigned short getHours()
+{
+    unsigned short hours;
+
+    printf("Enter the # of hours of access used: ");
+    scanf("%hu", &hours);
+    return hours;
+}
+
+int main()
+{
+    unsigned short hours = getHours();
+
+    double planACost = calculatePkgA(hours);
+    printf("Under plan A your cost is: $%.2lf\n", planACost);
+
+    double planBCost = calculatePkgB(hours);
+    printf("Under plan B your cost is: $%.2lf\n", planBCost);
+
+    double planCCost = calculatePkgC(hours);
+    printf("Under plan C your cost is: $%.2lf\n\n", planCCost);
+
+    printf("Bonus:\n");
+
+    double bonusPlanACost = calculatePackage(PKG_A_BASE_RATE, PKG_A_COVERED_HOURS, PKG_A_OVERAGE_RATE, hours);
+    printf("Under plan A your cost is: $%.2lf\n", bonusPlanACost);
+
+    double bonusPlanBCost = calculatePackage(PKG_B_BASE_RATE, PKG_B_COVERED_HOURS, PKG_B_OVERAGE_RATE, hours);
+    printf("Under plan B your cost is: $%.2lf\n", bonusPlanBCost);
+
+    double bonusPlanCCost = calculatePackage(PKG_C_BASE_RATE, PKG_C_COVERED_HOURS, PKG_C_OVERAGE_RATE, hours);
+    printf("Under plan C your cost is: $%.2lf\n", bonusPlanCCost);
+    return 0;
+}
+==============================================
+PGM #3 Output
+-----------------------------------------------------------------------
+Enter the # of hours of access used: 135
+Under plan A your cost is: $185.00
+Under plan B your cost is: $72.50
+Under plan C your cost is: $25.00
+
+Bonus:
+Under plan A your cost is: $185.00
+Under plan B your cost is: $72.50
+Under plan C your cost is: $25.00
+==============================================

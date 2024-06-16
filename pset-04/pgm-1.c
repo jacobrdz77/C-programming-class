@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 
-double calculateMonthlyPayment(double principle, double annualInterestRate, int numberOfPayments) {
+double calculateMonthlyPayment(double principle, float annualInterestRate, short numberOfPayments) {
   double monthlyRate = annualInterestRate / 12;
 
   return (monthlyRate * principle) / (1 - pow(1 + monthlyRate, (-1) * numberOfPayments));
