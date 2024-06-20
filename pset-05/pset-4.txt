@@ -1,0 +1,51 @@
+Program #1
+ISP Plans - part 2
+Using your code from Program #3 in PSET-03, add functions to prompt the user to enter a valid plan, and validate the number of hours entered, using functions.  You must implement and call the following functions in your code:
+
+char getPlan();
+bool isPlanValid(const char plan);
+bool areHoursValid(const unsigned short hours);
+
+If the user enters a plan that is not A, B, or C, the program should report this to the user and exit.
+
+If the user enters a number of hours greater than 744, the program should report this and exit.
+
+Your program must use a switch statement to call the selected calculatePkg function; the functions for plans A, B, and C should be the same as you submitted last week.                                 
+
+Program #2
+BMI Categorization
+Write a program that calculates the user’s body mass index (BMI) and categorizes it as underweight, normal, overweight, or obese, based on the following table from the United States Centers for Disease Control:
+
+BMI	Weight Status
+Below 18.5	Underweight
+≥ 18.5 and < 25	Normal
+≥ 25.0 and < 30  	Overweight
+30.0 and above	Obese
+Write a function to calculate BMI to the nearest tenth based on the following formula:
+
+image.png
+Where:
+
+wt_lb : is a person's weight, in points
+ht_in: is a person's height in inches.    
+Your submission must implement a function with a declaration similar to:
+
+float calculateBMI(const unisgned short wt_lb, const unsigned short ht_in);
+You should also include a function that reports the status based on values in table provided above.
+
+Program #3
+Cartesian Quadrant
+Write a program that takes the x–y coordinates of a point in the Cartesian plane and prints a message telling either an axis on which the point lies or the quadrant in which it is found.
+
+image.png
+
+ Your program must use a function to determine and report the quadrant of a point with x,y coordinates provided by the user.                                                                                  
+
+Sample output:
+
+Enter x and y coordinates:0 0
+Point (0.000000, 0.000000) is located on the origin
+Enter x and y coordinates:4.2 0
+Point (4.200000, 0.000000) is located on the x-axis
+Enter x and y coordinates:-3 7.22
+Point (-3.000000, 7.220000) is located in Quadrant II
