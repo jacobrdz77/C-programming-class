@@ -129,7 +129,7 @@ int main()
     planCost = calculatePkgC(hours);
     break;
   default:
-    break; 
+    return 0;
   }
 
   printf("Under plan %c your cost is: $%.2lf\n", chosenPlan, planCost);
