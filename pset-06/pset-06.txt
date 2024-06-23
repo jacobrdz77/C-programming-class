@@ -1,0 +1,143 @@
+=======================================================================
+Jacob Rodriguez
+COSC1420 910
+PSET: 06
+=======================================================================
+PGM Source Code #1
+
+#include <stdio.h>
+
+int getNumberOfElements() {
+  int num;
+  printf("Enter number of elements:");
+  scanf("%d", &num);
+  return num;
+}
+
+int main() {
+  int numberOfElements = getNumberOfElements();
+
+  if (numberOfElements < 1) {
+    printf("Must be greater than 1. Exiting...");
+    return 1;
+  }
+
+  int numbers[numberOfElements];
+  int sum;
+  int minNumber;
+  int maxNumber;
+
+  for (int i = 0; i < numberOfElements; i++) {
+    printf("enter the next number:");
+    scanf("%d", &numbers[i]);
+    if (numbers[i] > maxNumber) {
+      maxNumber = numbers[i];
+    }
+    if (numbers[i] < minNumber) {
+      minNumber = numbers[i];
+    }
+
+    sum += numbers[i];
+  }
+
+  double average = (double)sum / numberOfElements;
+
+  printf("    The sum is:%8d\n", sum);
+  printf("The average is:%8.2lf\n", average);
+  printf("      Smallest:%8d\n", minNumber);
+  printf("       Largest:%8d\n", maxNumber);
+
+  return 0;
+}
+-----------------------------------------------------------------------
+Enter number of elements:4
+enter the next number:56
+enter the next number:-87
+enter the next number:1
+enter the next number:0
+    The sum is:     -30
+The average is:   -7.50
+      Smallest:     -87
+       Largest:      56
+==============================================
+PGM #2 Source Code #2
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int gdc(int x, int y) {
+  if (x == 0 || y == 0) {
+    return 0;
+  }
+
+  int absolute_x = abs(x);
+  int absolute_y = abs(y);
+
+  int remainder;
+
+  do {
+    remainder = absolute_x % absolute_y;
+    // absolute_x will contain the GCD value
+    absolute_x = absolute_y;
+    absolute_y = remainder;
+
+  } while (absolute_y != 0);
+  
+ return absolute_x;
+}
+
+int main() {
+
+  int x;
+  int y;
+  printf("Enter two numbers(x and y): ");
+  scanf("%d %d", &x, &y);
+  int userGdc = gdc(x, y);
+
+  printf("GDC: %d", userGdc);
+
+  return 0;
+}
+
+
+-----------------------------------------------------------------------
+
+Enter two numbers(x and y): -252 753
+GDC: 3
+
+==============================================
+PGM #3 Source Code
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main() {
+  int userGuess;
+  int numOfGuesses;
+  srand(time(NULL));
+  int randomNumber = (rand() % 100) + 1;
+  printf("Generating number between 1-100...\n");
+
+  do {
+    if (userGuess) {
+      if (userGuess > randomNumber)
+        printf("Too high\n");
+      if (userGuess < randomNumber)
+        printf("Too low\n");
+    }
+    printf("Guess a number:");
+    scanf("%d", &userGuess);
+    numOfGuesses += 1;
+  } while (userGuess != randomNumber);
+
+  printf("It took you %d guesses for the correct answer (%d)", numOfGuesses,
+         randomNumber);
+
+  return 0;
+}
+
+-----------------------------------------------------------------------
+
+Generating number between 1-100...
+Guess a number:50
+It took you 1 guesses for the correct answer (50)
