@@ -7,7 +7,6 @@ int main() {
   int numOfGuesses;
   srand(time(NULL));
   int randomNumber = (rand() % 100) + 1;
-  printf("Random num: %d", randomNumber);
   printf("Generating number between 1-100...\n");
 
   do {
@@ -24,6 +23,5 @@ int main() {
 
   printf("It took you %d guesses for the correct answer (%d)", numOfGuesses,
          randomNumber);
-
   return 0;
 }
