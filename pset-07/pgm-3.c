@@ -49,7 +49,6 @@ bool calculateChange(
 
 int main()
 {
-    // Your code here
     float cost, paid;
     unsigned int dollars;
     unsigned short quarters, dimes, nickels, pennies;
