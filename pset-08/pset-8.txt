@@ -3,15 +3,319 @@ Jacob Rodriguez
 COSC1420 910
 PSET: 08
 =======================================================================
-PGM Source Code #1
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <stdbool.h>
+
+const int ATTRIBUTES_COUNT = 6;
+const int DICE_SIDES_COUNT = 6;
+
+int comparator(const void *a, const void *b);
+void generateCharacterAttributes(int *arr, int size_arr);
+
+int main()
+{
+  int attributes[ATTRIBUTES_COUNT];
+
+  srand(time(NULL));
+
+  int num = 18;
+
+  generateCharacterAttributes(attributes, ATTRIBUTES_COUNT);
+
+  return 0;
+}
+
+int comparator(const void *a, const void *b)
+{
+  return (*(int *)a - *(int *)b);
+}
+
+void generateCharacterAttributes(int *arr, int size_arr)
+{
+  if (arr == NULL || size_arr <= 0)
+  {
+    printf("Invalid array or size\n");
+    return;
+  }
+
+  printf("Generating Character's Attributes...\n\n");
+  for (int i = 0; i < size_arr; i++)
+  {
+    int randNums[4];
+
+    for (int k = 0; k < 4; k++)
+    {
+      int numGenerated = (rand() % DICE_SIDES_COUNT) + 1;
+      randNums[k] = numGenerated;
+    }
+
+    qsort(randNums, 4, sizeof(int), comparator);
+    int sum = 0;
+
+    for (int n = 1; n < 4; n++)
+    {
+      sum += randNums[n];
+    }
+
+    *(arr + i) = sum;
+
+    printf("Attribute #%d: %2d\n", i + 1, *(arr + i));
+  }
+}
+
 -----------------------------------------------------------------------
-<PGM #1 Output goes here ... >
+Generating Character's Attributes...
+
+Attribute #1: 10
+Attribute #2: 12
+Attribute #3: 13
+Attribute #4: 13
+Attribute #5: 10
+Attribute #6: 11
+
 ==============================================
 PGM #2 Source Code #2
+
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <math.h>
+#include <time.h>
+
+int comparator(const void *a, const void *b);
+void generateScores(unsigned short scores[], const unsigned short count);
+void getStats(
+	const unsigned short scores[],
+	const unsigned short count,
+	unsigned short *const min,
+	unsigned short *const max,
+	float *const mean,
+	float *const median);
+void printArray(
+	const unsigned short scores[],
+	const unsigned short count);
+float standardDeviation(
+	const unsigned short scores[],
+	const float mean,
+	const unsigned short count);
+
+int main()
+{
+	srand(time(NULL));
+
+	unsigned short scores[50];
+
+	generateScores(scores, 50);
+	printf("Unsorted:\n");
+	printArray(scores, 50);
+	qsort(scores, 50, sizeof(unsigned short), comparator);
+	printf("Sorted:\n");
+	printArray(scores, 50);
+	unsigned short min = 0;
+	unsigned short max = 0;
+	float mean = 0.0;
+	float median = 0.0;
+	getStats(scores, 50, &min, &max, &mean, &median);
+	float standardDev = standardDeviation(scores, mean, 50);
+
+	printf("min:    %3hu        max:  %3hu\n", min, max);
+	printf("mean:    %.2f   median:  %.2f\n", mean, median);
+	printf("stdev:   %.2f", standardDev);
+	return 0;
+}
+
+int comparator(const void *a, const void *b)
+{
+	return (*(unsigned short *)a - *(unsigned short *)b);
+}
+
+void generateScores(unsigned short *scores, const unsigned short count)
+{
+	if (scores == NULL || count <= 0)
+	{
+		printf("Invalid array or size\n");
+		return;
+	}
+
+	for (int i = 0; i < count; i++)
+	{
+		int numGenerated = (rand() % 100) + 1;
+		*(scores + i) = numGenerated;
+	}
+}
+void getStats(
+	const unsigned short scores[],
+	const unsigned short count,
+	unsigned short *const min,
+	unsigned short *const max,
+	float *const mean,
+	float *const median)
+{
+	if (scores == NULL || count <= 0)
+	{
+		printf("Invalid array or size\n");
+		return;
+	}
+	unsigned short tempScores[count];
+
+	for (int i = 0; i < count; i++)
+	{
+		tempScores[i] = scores[i];
+	}
+
+	float sum = 0;
+	for (int i = 0; i < count; i++)
+	{
+		sum += tempScores[i];
+	}
+
+	*mean = sum / count;
+
+	qsort(tempScores, count, sizeof(unsigned short), comparator);
+
+	*min = tempScores[0];
+	*max = tempScores[count - 1];
+
+	if (count % 2 == 0)
+	{
+		unsigned short rightNum = tempScores[count / 2];
+		unsigned short leftNum = tempScores[(count / 2) - 1];
+		*median = (rightNum + leftNum) / 2;
+	}
+	else
+	{
+		// Get middle value
+		*median = tempScores[count / 2];
+	}
+}
+
+void printArray(
+	const unsigned short scores[],
+	const unsigned short count)
+{
+	if (scores == NULL || count <= 0)
+	{
+		printf("Invalid array or size\n");
+		return;
+	}
+
+	for (int i = 0; i < count; i++)
+	{
+		if (i % 10 == 0)
+		{
+			printf("\n%5hu", scores[i]);
+		}
+		else
+		{
+
+			printf("%5hu", scores[i]);
+		}
+	}
+	printf("\n\n");
+}
+
+float standardDeviation(
+	const unsigned short scores[],
+	const float mean,
+	const unsigned short count)
+{
+	float summation = 0.0;
+
+	for (int i = 0; i < count; i++)
+	{
+		float absoluteValue = abs(scores[i] - mean);
+		summation += powf(absoluteValue, 2);
+	}
+
+	return sqrtf(summation / 2);
+}
 -----------------------------------------------------------------------
-<PGM #2 Output goes here ... >
+
+Unsorted:
+
+   66   52   99   99   68   24    9   12   18   46
+   58   73    9   65   29   58   12    7   88   53
+   49   35   22   87   12   12   31   22   25   61
+   21   23    5   33   46   21   54   57   14   26
+    2   91   98   52   33   69   61   54   10   18
+
+Sorted:
+
+    2    5    7    9    9   10   12   12   12   12
+   14   18   18   21   21   22   22   23   24   25
+   26   29   31   33   33   35   46   46   49   52
+   52   53   54   54   57   58   58   61   61   65
+   66   68   69   73   87   88   91   98   99   99
+
+min:      2        max:   99
+mean:    41.78   median:  34.00
+stdev:   135.93
 ==============================================
 PGM #3 Source Code
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main()
+{
+	srand(time(NULL));
+
+	int numRolls;
+	do
+	{
+
+		printf("Enter the number of rolls: ");
+		scanf("%d", &numRolls);
+		if (numRolls <= 0)
+		{
+			printf("**Invalid input, select a value > 0\n");
+		}
+	} while (numRolls <= 0);
+
+	int scoreArr[11] = {0};
+	printf("Generating %d rolls...\n", numRolls);
+	for (int i = 0; i < numRolls; i++)
+	{
+		int numOne = (rand() % 6) + 1;
+		int numTwo = (rand() % 6) + 1;
+		int numSum = numOne + numTwo;
+		if (numSum >= 2 && numSum <= 12)
+		{
+			scoreArr[numSum - 2]++;
+		}
+	}
+
+	printf("=================================\n");
+	for (int i = 0; i < 11; i++)
+	{
+		float percentage = ((float)scoreArr[i] / numRolls) * 100;
+		printf("%02d (%5.2f%%):", i + 2, percentage);
+		for (int j = 0; j < (int)percentage; j++)
+		{
+			printf("*");
+		}
+		printf("\n");
+	}
+
+	return 0;
+}
 -----------------------------------------------------------------------
-<PGM #3 Output goes here ... >
+Enter the number of rolls:
+90000000
+Generating 90000000 rolls...
+=================================
+02 ( 2.78%):**
+03 ( 5.55%):*****
+04 ( 8.33%):********
+05 (11.11%):***********
+06 (13.90%):*************
+07 (16.66%):****************
+08 (13.89%):*************
+09 (11.11%):***********
+10 ( 8.33%):********
+11 ( 5.55%):*****
+12 ( 2.78%):**
 ==============================================

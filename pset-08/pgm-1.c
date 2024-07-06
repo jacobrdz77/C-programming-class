@@ -7,20 +7,36 @@ const int ATTRIBUTES_COUNT = 6;
 const int DICE_SIDES_COUNT = 6;
 
 int comparator(const void *a, const void *b);
-int generateCharacterAttributes(int *arr);
+void generateCharacterAttributes(int *arr, int size_arr);
 
 int main()
 {
-  // For each attribute (for loop)
-  // Generate a number between 1-6, 4 times
-  // Add the largest 3 numbers; Set to attribute[i]
-  // Print out attributes
-  srand(time(NULL));
-
   int attributes[ATTRIBUTES_COUNT];
 
+  srand(time(NULL));
+
+  int num = 18;
+
+  generateCharacterAttributes(attributes, ATTRIBUTES_COUNT);
+
+  return 0;
+}
+
+int comparator(const void *a, const void *b)
+{
+  return (*(int *)a - *(int *)b);
+}
+
+void generateCharacterAttributes(int *arr, int size_arr)
+{
+  if (arr == NULL || size_arr <= 0)
+  {
+    printf("Invalid array or size\n");
+    return;
+  }
+
   printf("Generating Character's Attributes...\n\n");
-  for (int i = 0; i < ATTRIBUTES_COUNT; i++)
+  for (int i = 0; i < size_arr; i++)
   {
     int randNums[4];
 
@@ -38,19 +54,8 @@ int main()
       sum += randNums[n];
     }
 
-    attributes[i] = sum;
+    *(arr + i) = sum;
 
-    printf("Attribute #%d: %2d\n", i + 1, attributes[i]);
+    printf("Attribute #%d: %2d\n", i + 1, *(arr + i));
   }
-
-  return 0;
-}
-
-int comparator(const void *a, const void *b)
-{
-  return (*(int *)a - *(int *)b);
-}
-
-int generateCharacterAttributes(int *arr)
-{
 }
