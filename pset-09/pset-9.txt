@@ -1,0 +1,151 @@
+=======================================================================
+Jacob Rodriguez
+COSC1420 910
+PSET: 09
+=======================================================================
+#include <stdio.h>
+#include <ctype.h>
+
+int main()
+{
+    char str[100];
+
+    printf("Enter a word or phrase: ");
+    fgets(str, sizeof(str), stdin);
+
+    for (int i = 0; str[i] != '\0'; i++)
+    {
+        str[i] = toupper(str[i]);
+    }
+
+    printf("in caps:\n%s", str);
+
+    return 0;
+}
+-----------------------------------------------------------------------
+
+Enter a word or phrase: Hello world!  
+in caps:
+HELLO WORLD!
+
+==============================================
+#include <stdio.h>
+#include <string.h>
+
+void pluralizeStr(char noun[])
+{
+    int length = strlen(noun);
+    if (noun[length - 1] == 'y')
+    {
+        noun[length - 1] = 'i';
+        strcat(noun, "es");
+    }
+    else if (noun[length - 1] == 's' || noun[length - 1] == 'x' || (noun[length - 2] == 'c' && noun[length - 1] == 'h') || (noun[length - 2] == 's' && noun[length - 1] == 'h'))
+    {
+        strcat(noun, "es");
+    }
+    else
+    {
+        strcat(noun, "s");
+    }
+}
+
+int main()
+{
+    char nouns[][20] = {
+        "chair",
+        "dairy",
+        "box",
+        "circus",
+        "fly",
+        "dog",
+        "church",
+        "mass",
+        "marsh",
+        "path"};
+    int numNouns = sizeof(nouns) / sizeof(nouns[0]);
+
+    for (int i = 0; i < numNouns; i++)
+    {
+        char plural[30];
+        strcpy(plural, nouns[i]);
+        pluralizeStr(plural);
+        printf("singular: %10s -- plural: %10s\n", nouns[i], plural);
+    }
+
+    return 0;
+}
+-----------------------------------------------------------------------
+singular:      chair -- plural:     chairs
+singular:      dairy -- plural:    dairies
+singular:        box -- plural:      boxes
+singular:     circus -- plural:   circuses
+singular:        fly -- plural:      flies
+singular:        dog -- plural:       dogs
+singular:     church -- plural:   churches
+singular:       mass -- plural:     masses
+singular:      marsh -- plural:    marshes
+singular:       path -- plural:      paths
+==============================================
+#include <stdio.h>
+#include <stdbool.h>
+#include <ctype.h>
+#include <string.h>
+
+bool isPalindrome(const char phrase[], const size_t length);
+
+int main()
+{
+    char input[100];
+    printf("Enter a phrase: ");
+    fgets(input, sizeof(input), stdin);
+    input[strcspn(input, "\n")] = '\0';
+
+    if (isPalindrome(input, strlen(input)))
+    {
+        printf("isPalindrome? YES -- %s\n", input);
+    }
+    else
+    {
+        printf("isPalindrome? NO -- %s\n", input);
+    }
+
+    return 0;
+}
+
+bool isPalindrome(const char phrase[], const size_t length)
+{
+    int start = 0;
+    int end = length - 1;
+
+    while (start < end)
+    {
+        while (!isalnum(phrase[start]))
+        {
+            start++;
+        }
+        while (!isalnum(phrase[end]))
+        {
+            end--;
+        }
+
+        char charOne = tolower(phrase[start]);
+        char charTwo = tolower(phrase[end]);
+
+        if (charOne != charTwo)
+        {
+            return false;
+        }
+
+        start++;
+        end--;
+    }
+
+    return true;
+}
+-----------------------------------------------------------------------
+
+Enter a phrase: Race Car
+isPalindrome? YES -- Race Car
+
+==============================================
