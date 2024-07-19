@@ -1,0 +1,188 @@
+=======================================================================
+Jacob Rodriguez
+COSC1420 910
+PSET: 10  
+=======================================================================
+#include <stdio.h>
+void Hanoi(int n, char source, char destination, char intermediate, int *step);
+
+int main()
+{
+    printf("How many disks? ");
+    int disks;
+    scanf("%d", &disks);
+    int step = 1;
+    Hanoi(disks, 'A', 'C', 'B', &step);
+    return 0;
+}
+
+void Hanoi(int n, char source, char destination, char intermediate, int *step)
+{
+    if (n == 0)
+        return;
+
+    Hanoi(n - 1, source, intermediate, destination, step);
+    printf("Step %02d Move disk %d from peg %c to peg %c\n", (*step)++, n, source, destination);
+    Hanoi(n - 1, intermediate, destination, source, step);
+}
+-----------------------------------------------------------------------
+
+How many disks? 3
+Step 01 Move disk 1 from peg A to peg C
+Step 02 Move disk 2 from peg A to peg B
+Step 03 Move disk 1 from peg C to peg B
+Step 04 Move disk 3 from peg A to peg C
+Step 05 Move disk 1 from peg B to peg A
+Step 06 Move disk 2 from peg B to peg C
+Step 07 Move disk 1 from peg A to peg C
+
+==============================================
+#include <stdio.h>
+#include <math.h>
+
+int gcd(const int p, const int q);
+
+int main()
+{
+    int p;
+    int q;
+    printf("Enter two numbers: ");
+    scanf("%d %d", &p, &q);
+    int userGdc = gcd(p, q);
+
+    printf("GDC: %d", userGdc);
+    return 0;
+}
+
+int gcd(const int p, const int q)
+{
+    if (p == 0 || q == 0)
+    {
+        return 0;
+    }
+
+    int absolute_p = abs(p);
+    int absolute_q = abs(q);
+
+    int remainder;
+
+    return absolute_p % absolute_q == 0 ? q : gcd(absolute_q, absolute_p % absolute_q);
+}
+-----------------------------------------------------------------------
+
+Enter two numbers: 8 64
+GDC: 8
+
+==============================================
+
+#include <stdio.h>
+#include <math.h>
+#include <float.h>
+
+long long fibonacci(const int seq);
+void calculatGoldenRatio(double *const phi, int *const N);
+
+int main()
+{
+    int iterations;
+    printf("Enter the number of iterations: ");
+    scanf("%d", &iterations);
+    double goldenRatio;
+
+    calculatGoldenRatio(&goldenRatio, &iterations);
+
+    return 0;
+}
+
+long long fibonacci(const int seq)
+{
+    if (seq == 0)
+    {
+        return 0;
+    }
+    if (seq == 1)
+    {
+        return 1;
+    }
+
+    // Fn-1 + Fn-2
+    return fibonacci(seq - 1) + fibonacci(seq - 2);
+}
+void calculatGoldenRatio(double *const phi, int *const N)
+{
+    double prevRatio = 0.0;
+    long long numerator = 0;
+    long long denominator = 0;
+
+    for (int i = 1; i <= *N; i++)
+    {
+        // N + 1
+        numerator = fibonacci(i + 1);
+
+        // N
+        denominator = fibonacci(i);
+
+        *phi = (double)numerator / (double)denominator;
+
+        if (fabs(*phi - prevRatio) < DBL_EPSILON)
+        {
+            printf("The golden ratio has converged after %d iterations.\n", *phi, i);
+            break;
+        }
+
+        printf("fib(%02d)=%10lld    fib(%02d)=%10lld \t    ratio:%.10f\n", i + 1, numerator, i, denominator, *phi);
+        
+        prevRatio = *phi;
+    }
+
+    printf("\nGolden ratio computed as: %.10f after %d iterations", *phi, *N);
+}
+
+-----------------------------------------------------------------------
+
+Enter the number of iterations: 50
+fib(02)=         1    fib(01)=         1            ratio:1.0000000000
+fib(03)=         2    fib(02)=         1            ratio:2.0000000000
+fib(04)=         3    fib(03)=         2            ratio:1.5000000000
+fib(05)=         5    fib(04)=         3            ratio:1.6666666667
+fib(06)=         8    fib(05)=         5            ratio:1.6000000000
+fib(07)=        13    fib(06)=         8            ratio:1.6250000000
+fib(08)=        21    fib(07)=        13            ratio:1.6153846154
+fib(09)=        34    fib(08)=        21            ratio:1.6190476190
+fib(10)=        55    fib(09)=        34            ratio:1.6176470588
+fib(11)=        89    fib(10)=        55            ratio:1.6181818182
+fib(12)=       144    fib(11)=        89            ratio:1.6179775281
+fib(13)=       233    fib(12)=       144            ratio:1.6180555556
+fib(14)=       377    fib(13)=       233            ratio:1.6180257511
+fib(15)=       610    fib(14)=       377            ratio:1.6180371353
+fib(16)=       987    fib(15)=       610            ratio:1.6180327869
+fib(17)=      1597    fib(16)=       987            ratio:1.6180344478
+fib(18)=      2584    fib(17)=      1597            ratio:1.6180338134
+fib(19)=      4181    fib(18)=      2584            ratio:1.6180340557
+fib(20)=      6765    fib(19)=      4181            ratio:1.6180339632
+fib(21)=     10946    fib(20)=      6765            ratio:1.6180339985
+fib(22)=     17711    fib(21)=     10946            ratio:1.6180339850
+fib(23)=     28657    fib(22)=     17711            ratio:1.6180339902
+fib(24)=     46368    fib(23)=     28657            ratio:1.6180339882
+fib(25)=     75025    fib(24)=     46368            ratio:1.6180339890
+fib(26)=    121393    fib(25)=     75025            ratio:1.6180339887
+fib(27)=    196418    fib(26)=    121393            ratio:1.6180339888
+fib(28)=    317811    fib(27)=    196418            ratio:1.6180339887
+fib(29)=    514229    fib(28)=    317811            ratio:1.6180339888
+fib(30)=    832040    fib(29)=    514229            ratio:1.6180339887
+fib(31)=   1346269    fib(30)=    832040            ratio:1.6180339888
+fib(32)=   2178309    fib(31)=   1346269            ratio:1.6180339887
+fib(33)=   3524578    fib(32)=   2178309            ratio:1.6180339887
+fib(34)=   5702887    fib(33)=   3524578            ratio:1.6180339887
+fib(35)=   9227465    fib(34)=   5702887            ratio:1.6180339887
+fib(36)=  14930352    fib(35)=   9227465            ratio:1.6180339887
+fib(37)=  24157817    fib(36)=  14930352            ratio:1.6180339887
+fib(38)=  39088169    fib(37)=  24157817            ratio:1.6180339887
+fib(39)=  63245986    fib(38)=  39088169            ratio:1.6180339887
+fib(40)= 102334155    fib(39)=  63245986            ratio:1.6180339887
+fib(41)= 165580141    fib(40)= 102334155            ratio:1.6180339887
+The golden ratio has converged after -1684540248 iterations.
+
+Golden ratio computed as: 1.6180339887 after 50 iterations
+
+==============================================

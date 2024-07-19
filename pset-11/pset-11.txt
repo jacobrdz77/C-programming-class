@@ -1,0 +1,325 @@
+=======================================================================
+Jacob Rodriguez
+COSC1420 910
+PSET: 11  
+=======================================================================
+
+#include <stdio.h>
+#include <string.h>
+
+typedef struct
+{
+    int number;
+    char name[15];
+    char symbol[4];
+    char class[50];
+    double weight;
+    int shells[7];
+
+} Element_t;
+
+void scan_element(Element_t *const element);
+void print_element(const Element_t *const element);
+int main()
+{
+    Element_t userElement;
+    scan_element(&userElement);
+    print_element(&userElement);
+}
+
+void remove_newline(char *str)
+{
+    size_t len = strlen(str);
+    if (len > 0 && str[len - 1] == '\n')
+    {
+        str[len - 1] = '\0';
+    }
+}
+
+void scan_element(Element_t *const userElement)
+{
+    printf("Enter atomic #: ");
+    scanf("%d", &userElement->number);
+    getchar();
+
+    printf("        name: ");
+    fgets(userElement->name, sizeof(userElement->name), stdin);
+    remove_newline(userElement->name);
+
+    printf("        symbol: ");
+    fgets(userElement->symbol, sizeof(userElement->name), stdin);
+    remove_newline(userElement->symbol);
+
+    printf("        class: ");
+    fgets(userElement->class, sizeof(userElement->name), stdin);
+    remove_newline(userElement->class);
+
+    printf("         weight: ");
+    scanf("%f", &userElement->weight);
+
+    printf("         shells, enter 7 values: ");
+    for (int i = 0; i < 7; i++)
+    {
+        scanf("%d", &userElement->shells[i]);
+    }
+}
+void print_element(const Element_t *const userElement)
+{
+    printf("Output:\n");
+    printf("#%d %s\n", userElement->number, userElement->name);
+    printf("  wt: %.2f, symbol: %s, class:%s\n", userElement->weight, userElement->symbol, userElement->class);
+    printf("  shells: ");
+    for (int i = 0; i < 7; i++)
+    {
+        printf("%d", userElement->shells[i]);
+    }
+    printf("\n");
+}
+
+-----------------------------------------------------------------------
+
+Enter atomic #: 1            
+        name: Hydrogen
+        symbol: H
+        class: gas
+         weight: 1.00784
+         shells, enter 7 values: 1 0 0 0 0 0 0
+Output:
+#1 Hydrogen
+  wt: 0.00, symbol: H, class:gas
+  shells: 1000000
+
+==============================================
+#include <stdio.h>
+#include <math.h>
+#include <time.h>
+#include <stdlib.h>
+
+typedef struct
+{
+    double x;
+    double y;
+} Point;
+
+float calculateDistance(const Point p[], const int count);
+int main()
+{
+    srand(time(NULL));
+    Point points[5];
+
+    for (int i = 0; i < 5; i++)
+    {
+        points[i].x = 1.0 + ((double)rand() / RAND_MAX) * 9;
+        points[i].y = 1.0 + ((double)rand() / RAND_MAX) * 9;
+    }
+
+    float totalDistance = calculateDistance(points, 5);
+    printf("Total distance: %f", totalDistance);
+
+    return 0;
+}
+
+float calculateDistance(const Point p[], const int count)
+{
+
+    for (int i = 0; i < count; i++)
+    {
+        printf("point %d:(%2.2f, %2.2f)\n", i, p[i].x, p[i].y);
+    }
+
+    float totalDistance = 0;
+
+    for (int i = 0; i < count - 1; i++)
+    {
+        totalDistance += sqrt(pow((p[i + 1].x - p[i].x), 2) + pow((p[i + 1].y - p[i].y), 2));
+        printf("\tdist: (%2.2f, %2.2f)-->(%2.2f, %2.2f) : ", p[i + 1].x, p[i].x, p[i + 1].y, p[i].y);
+        printf("%.3f\n", totalDistance);
+    }
+
+    return totalDistance;
+}
+-----------------------------------------------------------------------
+
+point 0:(7.39, 5.38)
+point 1:(6.48, 5.59)
+point 2:(6.70, 4.60)
+point 3:(3.94, 5.14)
+point 4:(1.59, 5.49)
+	dist: (6.48, 7.39)-->(5.59, 5.38) : 0.935
+	dist: (6.70, 6.48)-->(4.60, 5.59) : 1.950
+	dist: (3.94, 6.70)-->(5.14, 4.60) : 4.771
+	dist: (1.59, 3.94)-->(5.49, 5.14) : 7.143
+Total distance: 7.143469
+
+==============================================
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <stdbool.h>
+
+#define MAX_STACK_SIZE 100
+typedef struct Stack_s
+{
+    short top;
+    short limit;
+    short item[MAX_STACK_SIZE];
+
+    bool (*pop)(struct Stack_s *const stack, short *const value);
+    bool (*push)(struct Stack_s *const stack, const short value);
+    void (*print)(const struct Stack_s *const stack);
+} Stack;
+
+bool StackPop(struct Stack_s *const stack, short *const value);
+bool StackPush(struct Stack_s *const stack, const short value);
+void PrintStack(const struct Stack_s *const stack);
+
+int main()
+{
+    srand(time(0));
+    Stack myStack =
+        {
+            .top = 0,
+            .pop = StackPop,
+            .push = StackPush,
+            .print = PrintStack};
+
+    printf("Enter the stack size:");
+    scanf("%hu", &myStack.limit);
+
+    printf("=intial=\n");
+    myStack.print(&myStack);
+
+    while (myStack.push(&myStack, rand() % 10000))
+        ;
+    printf("=populated=\n");
+    myStack.print(&myStack);
+
+    short value;
+    int temp = myStack.top / 2;
+    for (int i = 0; i < temp && myStack.pop(&myStack, &value); i++)
+    {
+        printf("1. Popped: %d\n", value);
+    }
+
+    printf("=midway=\n");
+    myStack.print(&myStack);
+
+    while (myStack.push(&myStack, rand() % 10000))
+        ;
+    printf("=repopulated=\n");
+    myStack.print(&myStack);
+
+    while (myStack.pop(&myStack, &value))
+    {
+        printf("2. Popped: %d\n", value);
+    }
+    printf("=final=\n");
+    myStack.print(&myStack);
+
+    return 0;
+}
+
+bool StackPop(struct Stack_s *const stack, short *const value)
+{
+    if (stack->top != 0)
+    {
+        *value = stack->item[stack->top];
+        stack->top--;
+
+        return true;
+    }
+    return false;
+}
+bool StackPush(struct Stack_s *const stack, const short value)
+{
+    // short length = sizeof(stack->item) / sizeof(stack->item[0]);
+    // if (length == stack->limit)
+    if (stack->top != stack->limit)
+    {
+        stack->item[stack->top] = value;
+        stack->top++;
+        return true;
+    }
+    return false;
+}
+void PrintStack(const struct Stack_s *const stack)
+{
+    printf("===============\n");
+    printf("Stack.top=%hd limit=%hd\n\n", stack->top, stack->limit);
+    if (stack->top == 0)
+    {
+        printf("===============\n");
+        return;
+    }
+
+    for (short i = 0; i < stack->limit; i++)
+    {
+        if (i % 10 == 0 && i != 0)
+        {
+
+            printf("  %hd\n", stack->item[i]);
+        }
+        else
+        {
+            printf("  %hd", stack->item[i]);
+        }
+    }
+    printf("\n\n===============\n");
+}
+-----------------------------------------------------------------------
+
+Enter the stack size:12
+=intial=
+===============
+Stack.top=0 limit=12
+
+===============
+=populated=
+===============
+Stack.top=12 limit=12
+
+  9818  2688  9744  1564  3122  3058  2201  8725  9579  2935  6505
+  2181
+
+===============
+1. Popped: 0
+1. Popped: 2181
+1. Popped: 6505
+1. Popped: 2935
+1. Popped: 9579
+1. Popped: 8725
+=midway=
+===============
+Stack.top=6 limit=12
+
+  9818  2688  9744  1564  3122  3058  2201  8725  9579  2935  6505
+  2181
+
+===============
+=repopulated=
+===============
+Stack.top=12 limit=12
+
+  9818  2688  9744  1564  3122  3058  3172  4195  6499  3302  8438
+  4860
+
+===============
+2. Popped: 0
+2. Popped: 4860
+2. Popped: 8438
+2. Popped: 3302
+2. Popped: 6499
+2. Popped: 4195
+2. Popped: 3172
+2. Popped: 3058
+2. Popped: 3122
+2. Popped: 1564
+2. Popped: 9744
+2. Popped: 2688
+=final=
+===============
+Stack.top=0 limit=12
+
+===============
+
+==============================================
