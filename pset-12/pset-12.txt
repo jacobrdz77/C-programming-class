@@ -1,0 +1,164 @@
+=======================================================================
+Jacob Rodriguez
+COSC1420 910
+PSET: 12  
+=======================================================================
+complex.h
+#ifndef COMPLEX_H
+#define COMPLEX_H
+
+#include <stdio.h>
+
+typedef struct {
+  double real;
+  double imaginary;
+} Complex;
+
+Complex getComplex(FILE *fp);
+void writeComplex(const Complex *const this, FILE *fp);
+Complex Add(const Complex *const p, const Complex *const q);
+Complex Multiply(const Complex *const p, const Complex *const q);
+void Copy(Complex *const this, const Complex *const value);
+
+#endif
+
+complex.c
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "complex.h"
+Complex getComplex(FILE *fp) {
+  Complex c;
+
+  fscanf(fp, "%lf%lfi", &c.real, &c.imaginary);
+
+  return c;
+}
+
+// writes a complex number to a file pointer, including stdout
+void writeComplex(const Complex *const this, FILE *fp) {
+  if (this->real == 0 && this->imaginary == 0) {
+    fprintf(fp, "%.2lf\n", this->real);
+    return;
+  }
+  if (this->real == 0) {
+    fprintf(fp, "%.2lfi\n", this->imaginary);
+    return;
+  }
+  if (this->imaginary == 0) {
+    fprintf(fp, "%.2lf\n", this->real);
+    return;
+  }
+
+  if (this->imaginary >= 0) {
+    fprintf(fp, "%.2lf+%.2lfi\n", this->real, this->imaginary);
+  } else {
+    fprintf(fp, "%.2lf%.2lfi\n", this->real, this->imaginary);
+  }
+}
+
+// adds two complex numbers
+Complex Add(const Complex *const p, const Complex *const q) {
+
+  Complex result;
+  result.real = p->real + q->real;
+  result.imaginary = p->imaginary + q->imaginary;
+  return result;
+}
+
+// multiplies two complex numbers
+Complex Multiply(const Complex *const p, const Complex *const q) {
+  Complex result;
+  result.real = p->real * q->real - p->imaginary * p->imaginary;
+  result.imaginary = p->real * q->imaginary - p->imaginary * q->real;
+  return result;
+}
+
+// copies value into this
+void Copy(Complex *const this, const Complex *const value) {
+  this->imaginary = value->imaginary;
+  this->real = value->real;
+}
+
+main.c
+#include "complex.h"
+#include <stdio.h>
+
+int main() {
+
+  Complex ca[] = {
+      {.real = 0, .imaginary = 0},   {.real = 1, .imaginary = 0},
+      {.real = -1, .imaginary = 0},  {.real = 0, .imaginary = 3},
+      {.real = 0, .imaginary = -4},  {.real = 2, .imaginary = 3},
+      {.real = 2, .imaginary = -4},  {.real = -5, .imaginary = 3},
+      {.real = -5, .imaginary = -4},
+  };
+
+  int length = sizeof(ca) / sizeof(ca[0]);
+
+  for (int i = 0; i < length; i++) {
+    printf("ca[%d]=", i);
+    writeComplex(&ca[i], stdout);
+  }
+
+  Complex c1, c2;
+  printf("Enter complex # in the form A+-Bi:");
+  c1 = getComplex(stdin);
+  printf("Enter complex # in the form A+-Bi:");
+  c2 = getComplex(stdin);
+
+  printf("1st Complex:");
+  writeComplex(&c1, stdout);
+  printf("2st Complex:");
+  writeComplex(&c2, stdout);
+
+  Complex addResult;
+  addResult = Add(&c1, &c2);
+  printf("\tAddition:");
+  writeComplex(&addResult, stdout);
+
+  Complex multResult;
+  printf("\tMultiplication:");
+  multResult = Multiply(&c1, &c2);
+  writeComplex(&multResult, stdout);
+
+  printf("Copying...\n");
+  Copy(&c1, &c2);
+
+  printf("1st Complex:");
+  writeComplex(&c1, stdout);
+  printf("2st Complex:");
+  writeComplex(&c2, stdout);
+
+  return 0;
+}
+-----------------------------------------------------------------------
+
+ca[0]=0.00
+ca[1]=1.00
+ca[2]=-1.00
+ca[3]=3.00i
+ca[4]=-4.00i
+ca[5]=2.00+3.00i
+ca[6]=2.00-4.00i
+ca[7]=-5.00+3.00i
+ca[8]=-5.00-4.00i
+Enter complex # in the form A+-Bi:3+2i
+Enter complex # in the form A+-Bi:6+7i
+1st Complex:3.00+2.00i
+2st Complex:6.00+7.00i
+        Addition:9.00+9.00i
+        Multiplication:14.00+9.00i
+Copying...
+1st Complex:6.00+7.00i
+2st Complex:6.00+7.00i
+
+==============================================
+PGM #2 Source Code #2
+-----------------------------------------------------------------------
+<PGM #2 Output goes here ... >
+==============================================
+PGM #3 Source Code
+-----------------------------------------------------------------------
+<PGM #3 Output goes here ... >
+==============================================
