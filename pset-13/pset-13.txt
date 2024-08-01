@@ -1,0 +1,283 @@
+=======================================================================
+Jacob Rodriguez
+COSC1420 910
+PSET: 13  
+=======================================================================
+PGM Source Code #1
+-----------------------------------------------------------------------
+#include <stdio.h>
+
+int main() {
+  const char *helloStr = "Hello World";
+
+  fprintf(stdout, "%s\n", helloStr);
+
+  FILE *textFile = fopen("hello.txt", "w");
+  if (textFile == NULL) {
+    fclose(textFile);
+    return 1;
+  }
+  fprintf(textFile, "%s\n", helloStr);
+  fclose(textFile);
+
+  FILE *binaryFile = fopen("hello.bin", "wb");
+  if (binaryFile == NULL) {
+    fclose(binaryFile);
+    return 1;
+  }
+  fprintf(binaryFile, "%s\n", helloStr);
+  fclose(binaryFile);
+
+  return 0;
+}
+==============================================
+
+Hello World
+
+-----------------------------------------------------------------------
+PGM #2
+
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+
+typedef struct {
+  int number;
+  char name[15];
+  char symbol[4];
+  char class[50];
+  double weight;
+  int shells[7];
+
+} element_t;
+
+void printElements(const element_t e[], const int count, FILE *outfile);
+
+void writeElements(const element_t e[], const int count,
+                   const char *const filename, const bool binary);
+
+int main() {
+  srand(time(NULL));
+  element_t randElements[10];
+
+  for (int i = 0; i < 10; i++) {
+    int randNum = (rand() % 118) + 1;
+    int randElectrons = (rand() % 7) + 1;
+    randElements[i].number = randNum;
+    sprintf(randElements[i].name, "Element %d", randNum);
+    sprintf(randElements[i].symbol, "E%d", randNum);
+    sprintf(randElements[i].class, "class %d", randNum);
+    randElements[i].weight = 10.0 + randNum;
+    for (int j = 0; j < 7; j++) {
+      randElements[i].shells[j] = randElectrons;
+    }
+  }
+
+  writeElements(randElements, 10, "hello.txt", false);
+  writeElements(randElements, 10, "hello.bin", true);
+
+  return 0;
+}
+
+void printElements(const element_t e[], const int count, FILE *outfile) {
+  if (outfile == NULL) {
+    perror("error file is null");
+    return;
+  }
+
+  for (int i = 0; i < count; i++) {
+    fprintf(outfile,
+            "#%d %s:\n\t\twt: %.2lf, symbol: %s, class:%s\n\t\tshells: ",
+            e[i].number, e[i].name, e[i].weight, e[i].symbol, e[i].class);
+    for (int j = 0; j < 7; j++) {
+      fprintf(outfile, "%d  ", e[i].shells[j]);
+    }
+    fprintf(outfile, "\n");
+  }
+}
+
+void writeElements(const element_t e[], const int count,
+                   const char *const filename, const bool binary) {
+  FILE *file = fopen(filename, binary ? "wb" : "w");
+  if (file == NULL) {
+    fprintf(stdout, "error opening file\n");
+    return;
+  }
+
+  if (binary) {
+    for (int i = 0; i < count; i++) {
+      size_t size = fwrite(&e[i], sizeof(e[i]), 1, file);
+      if (size != 1) {
+        fprintf(stdout, "error writing to binary file\n");
+        fclose(file);
+        return;
+      }
+    }
+    fclose(file);
+    return;
+  }
+  printElements(e, count, file);
+  fclose(file);
+}
+
+==============================================
+PGM #3 Source Code
+
+#include <stdbool.h>
+#include <stdio.h>
+
+typedef struct {
+  int number;
+  char name[15];
+  char symbol[4];
+  char class[50];
+  double weight;
+  int shells[7];
+
+} element_t;
+void readElements(element_t e[], const int count, const char *const filename,
+                  const bool binary);
+
+void printElements(const element_t e[], const int count, FILE *outfile);
+
+int main() {
+  const int count = 10;
+  element_t elements[count];
+
+  // Read elements from text file
+  readElements(elements, count, "elements.txt", false);
+  printf("======\nASCII Deserialization:\n========\n");
+  printElements(elements, count, stdout);
+
+  // Read elements from binary file
+  readElements(elements, count, "elements.bin", true);
+  printf("======\nBinary Deserialization:\n========\n");
+  printElements(elements, count, stdout);
+
+  return 0;
+  return 0;
+}
+
+void readElements(element_t e[], const int count, const char *const filename,
+                  const bool binary) {
+  FILE *file = fopen(filename, binary ? "rb" : "r");
+  if (file == NULL) {
+    fprintf(stdout, "error opening file\n");
+    return;
+  }
+
+  // deserialize binary
+  if (binary) {
+    for (int i = 0; i < count; i++) {
+      size_t size = fread(&e[i], sizeof(e[i]), 1, file);
+      if (size < 1) {
+        fprintf(stdout, "error writing to binary file\n");
+        fclose(file);
+        return;
+      }
+    }
+    fclose(file);
+    return;
+  }
+
+  // deserialize text file
+  for (int i = 0; i < count; i++) {
+    fscanf(file, "#%d ", &e[i].number);
+    fscanf(file, "%14s", e[i].name);
+    fscanf(file, " wt:%lf", &e[i].weight);
+    fscanf(file, " symbol:%3s", e[i].symbol);
+    fscanf(file, " class:%49s", e[i].class);
+    fscanf(file, " shells: %d %d %d %d %d %d %d \n", &e[i].shells[0],
+           &e[i].shells[1], &e[i].shells[2], &e[i].shells[3], &e[i].shells[4],
+           &e[i].shells[5], &e[i].shells[6]);
+  }
+  fclose(file);
+}
+
+void printElements(const element_t e[], const int count, FILE *outfile) {
+  if (outfile == NULL) {
+    perror("error file is null");
+    return;
+  }
+
+  for (int i = 0; i < count; i++) {
+    fprintf(outfile,
+            "#%d %s:\n\t\twt: %.2lf, symbol: %s, class:%s\n\t\tshells: ",
+            e[i].number, e[i].name, e[i].weight, e[i].symbol, e[i].class);
+    for (int j = 0; j < 7; j++) {
+      fprintf(outfile, "%d  ", e[i].shells[j]);
+    }
+    fprintf(outfile, "\n");
+  }
+}
+-----------------------------------------------------------------------
+<PGM #3 Output goes here ... >
+======
+ASCII Deserialization:
+========
+#75 Element:
+                wt: 0.00, symbol: , class:
+                shells: -1683509616  683  17  0  0  0  0
+#-1683553504 75:
+                wt: 85.00, symbol: E7, class:class
+                shells: 7  7  7  7  7  7  7
+#2 Element:
+                wt: 0.00, symbol: ¢½☻, class:
+                shells: 2883584  0  1593835615  0  0  0  83886085
+#0 2:
+                wt: 12.00, symbol: E7, class:class
+                shells: 2  2  2  2  2  2  2
+#79 Element:
+                wt: 0.00, symbol: ¢½☻, class:
+                shells: 16777216  0  0  0  0  0  0
+#0 79:
+                wt: 89.00, symbol: E10, class:class
+                shells: 3  3  3  3  3  3  3
+#72 Element:
+                wt: 0.00, symbol: , class:
+                shells: 474093829  32766  256  0  -1682501696  683  3014707
+#101 72:
+                wt: 82.00, symbol: E7, class:class
+                shells: 2  2  2  2  2  2  2
+#13 Element:
+                wt: 0.00, symbol: , class:
+                shells: 1281358800  233  0  0  45  0  0
+#474170488 13:
+                wt: 23.00, symbol: E7, class:class
+                shells: 5  5  5  5  5  5  5
+======
+Binary Deserialization:
+========
+#75 Element 75:
+                wt: 85.00, symbol: E7, class:class
+                shells: 7  7  7  7  7  7  7
+#2 Element 2:
+                wt: 12.00, symbol: E7, class:class
+                shells: 2  2  2  2  2  2  2
+#79 Element 79:
+                wt: 89.00, symbol: E10, class:class
+                shells: 3  3  3  3  3  3  3
+#72 Element 72:
+                wt: 82.00, symbol: E7, class:class
+                shells: 2  2  2  2  2  2  2
+#13 Element 13:
+                wt: 23.00, symbol: E7, class:class
+                shells: 5  5  5  5  5  5  5
+#3 Element 3:
+                wt: 13.00, symbol: E4, class:class
+                shells: 1  1  1  1  1  1  1
+#82 Element 82:
+                wt: 92.00, symbol: E5, class:class
+                shells: 1  1  1  1  1  1  1
+#71 Element 71:
+                wt: 81.00, symbol: E2, class:class
+                shells: 2  2  2  2  2  2  2
+#91 Element 91:
+                wt: 101.00, symbol: E8, class:class
+                shells: 4  4  4  4  4  4  4
+#89 Element 89:
+                wt: 99.00, symbol: E5, class:class
+                shells: 5  5  5  5  5  5  5
+==============================================
