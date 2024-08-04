@@ -185,9 +185,9 @@ void readElements(element_t e[], const int count, const char *const filename,
   // deserialize text file
   for (int i = 0; i < count; i++) {
     fscanf(file, "#%d ", &e[i].number);
-    fscanf(file, "%14s", e[i].name);
+    fscanf(file, "%[^:]:", e[i].name);
     fscanf(file, " wt:%lf", &e[i].weight);
-    fscanf(file, " symbol:%3s", e[i].symbol);
+    fscanf(file, " symbol:%[^,]", e[i].symbol);
     fscanf(file, " class:%49s", e[i].class);
     fscanf(file, " shells: %d %d %d %d %d %d %d \n", &e[i].shells[0],
            &e[i].shells[1], &e[i].shells[2], &e[i].shells[3], &e[i].shells[4],

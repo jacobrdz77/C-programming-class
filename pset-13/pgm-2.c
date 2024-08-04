@@ -84,7 +84,8 @@ void writeElements(const element_t e[], const int count,
 
   //* Writes to text file
   for (int i = 0; i < count; i++) {
-    fprintf(file, "#%d %s wt:%.2lf symbol:%s class:%s shells: ", e[i].number,
+    fprintf(file,
+            "#%d %s:\nwt:%.2lf, symbol:%s, class:%s\n\t\tshells: ", e[i].number,
             e[i].name, e[i].weight, e[i].symbol, e[i].class);
     for (int j = 0; j < 7; j++) {
       fprintf(file, "%d ", e[i].shells[j]);

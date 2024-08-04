@@ -58,11 +58,11 @@ void readElements(element_t e[], const int count, const char *const filename,
   // deserialize text file
   for (int i = 0; i < count; i++) {
     fscanf(file, "#%d ", &e[i].number);
-    fscanf(file, "%14s", e[i].name);
-    fscanf(file, " wt:%lf", &e[i].weight);
-    fscanf(file, " symbol:%3s", e[i].symbol);
-    fscanf(file, " class:%49s", e[i].class);
-    fscanf(file, " shells: %d %d %d %d %d %d %d \n", &e[i].shells[0],
+    fscanf(file, "%[^:]:", e[i].name);
+    fscanf(file, "wt:%lf", &e[i].weight);
+    fscanf(file, "symbol:%[^,]", e[i].symbol);
+    fscanf(file, "class:%[^\n]", e[i].class);
+    fscanf(file, "shells: %d %d %d %d %d %d %d", &e[i].shells[0],
            &e[i].shells[1], &e[i].shells[2], &e[i].shells[3], &e[i].shells[4],
            &e[i].shells[5], &e[i].shells[6]);
   }
@@ -76,8 +76,7 @@ void printElements(const element_t e[], const int count, FILE *outfile) {
   }
 
   for (int i = 0; i < count; i++) {
-    fprintf(outfile,
-            "#%d %s:\n\t\twt: %.2lf, symbol: %s, class:%s\n\t\tshells: ",
+    fprintf(outfile, "#%d %s:\n\t\twt:%.2lf, symbol:%s, class:%s\n\t\tshells: ",
             e[i].number, e[i].name, e[i].weight, e[i].symbol, e[i].class);
     for (int j = 0; j < 7; j++) {
       fprintf(outfile, "%d  ", e[i].shells[j]);

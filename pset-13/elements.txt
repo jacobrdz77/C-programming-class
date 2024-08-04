@@ -1,10 +1,30 @@
-#75 Element 75 wt:85.00 symbol:E7 class:class shells: 7 7 7 7 7 7 7 
-#2 Element 2 wt:12.00 symbol:E7 class:class shells: 2 2 2 2 2 2 2 
-#79 Element 79 wt:89.00 symbol:E10 class:class shells: 3 3 3 3 3 3 3 
-#72 Element 72 wt:82.00 symbol:E7 class:class shells: 2 2 2 2 2 2 2 
-#13 Element 13 wt:23.00 symbol:E7 class:class shells: 5 5 5 5 5 5 5 
-#3 Element 3 wt:13.00 symbol:E4 class:class shells: 1 1 1 1 1 1 1 
-#82 Element 82 wt:92.00 symbol:E5 class:class shells: 1 1 1 1 1 1 1 
-#71 Element 71 wt:81.00 symbol:E2 class:class shells: 2 2 2 2 2 2 2 
-#91 Element 91 wt:101.00 symbol:E8 class:class shells: 4 4 4 4 4 4 4 
-#89 Element 89 wt:99.00 symbol:E5 class:class shells: 5 5 5 5 5 5 5 
+#33 Element 33:
+		wt:43.00, symbol:E1, class:class
+		shells: 3 3 3 3 3 3 3 
+#64 Element 64:
+		wt:74.00, symbol:E8, class:class
+		shells: 7 7 7 7 7 7 7 
+#6 Element 6:
+		wt:16.00, symbol:E10, class:class
+		shells: 2 2 2 2 2 2 2 
+#48 Element 48:
+		wt:58.00, symbol:E1, class:class
+		shells: 4 4 4 4 4 4 4 
+#62 Element 62:
+		wt:72.00, symbol:E5, class:class
+		shells: 2 2 2 2 2 2 2 
+#115 Element 115:
+		wt:125.00, symbol:E7, class:class
+		shells: 2 2 2 2 2 2 2 
+#20 Element 20:
+		wt:30.00, symbol:E8, class:class
+		shells: 7 7 7 7 7 7 7 
+#96 Element 96:
+		wt:106.00, symbol:E7, class:class
+		shells: 5 5 5 5 5 5 5 
+#109 Element 109:
+		wt:119.00, symbol:E1, class:class
+		shells: 7 7 7 7 7 7 7 
+#117 Element 117:
+		wt:127.00, symbol:E9, class:class
+		shells: 4 4 4 4 4 4 4 
