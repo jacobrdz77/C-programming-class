@@ -4,14 +4,13 @@
 #include <stdlib.h>
 #include <time.h>
 
-float standardDeviation(const unsigned short scores[], const float mean,
-                        const unsigned short count);
+float standardDeviation(const unsigned int *scores, const float mean,
+                        const unsigned short count,
+                        const unsigned int numIterations);
 int main() {
   srand(time(NULL));
   int numRolls;
   int numDice;
-  int maxSize = numDice * 6;
-  int *tally = (int *)calloc(maxSize, sizeof(int));
 
   do {
     printf("Enter a number of iterations(N): ");
@@ -29,32 +28,42 @@ int main() {
     }
   } while (numDice <= 0);
 
+  int maxSize = numDice * 6;
+  int *tally = (int *)calloc(maxSize, sizeof(int));
+  int sumOfArr = 0;
+
   printf("Generating %d rolls...\n", numRolls);
   for (int i = 0; i < numRolls; i++) {
     int sum = 0;
     for (int j = 0; j < numDice; j++) {
       sum += (rand() % 6) + 1;
     }
-    tally[sum - 2]++;
+    sumOfArr += sum;
+    tally[sum - 2] += 1;
   }
 
   printf("=================================\n");
-
-  // iterates through the tally array and prints the histogram
-  for (int i = 0; i < maxSize; i++) {
-    float percentage = ((float)tally[i] / numRolls) * 100;
+  for (int i = 0; i < maxSize - 1; i++) {
+    double percentage = ((double)tally[i] / numRolls) * 100;
     printf("%02d -- %3d (%5.2f%%):", i + 2, tally[i], percentage);
     for (int j = 0; j < (int)percentage; j++) {
       printf("*");
     }
     printf("\n");
   }
+  printf("=================================\n");
 
+  float mean = sumOfArr / maxSize;
+  float deviation = standardDeviation(tally, mean, maxSize, numRolls);
+  printf("Mean: %.2f Standard deviation: %.2f\n", mean, deviation);
+
+  free(tally);
   return 0;
 }
 
-float standardDeviation(const unsigned short scores[], const float mean,
-                        const unsigned short count) {
+float standardDeviation(const unsigned int *scores, const float mean,
+                        const unsigned short count,
+                        const unsigned int numIterations) {
   float summation = 0.0;
 
   for (int i = 0; i < count; i++) {
@@ -62,7 +71,7 @@ float standardDeviation(const unsigned short scores[], const float mean,
     summation += powf(absoluteValue, 2);
   }
 
-  return sqrtf(summation / 2);
+  return sqrtf(summation / numIterations);
 }
 /*
 Program #1
