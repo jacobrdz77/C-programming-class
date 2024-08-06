@@ -1,0 +1,177 @@
+=======================================================================
+Jacob Rodriguez
+COSC1420 910
+PSET: 14  
+=======================================================================
+PGM Source Code #1
+#include <math.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+float standardDeviation(const unsigned int *scores, const float mean,
+                        const unsigned short count,
+                        const unsigned int numIterations);
+int main() {
+  srand(time(NULL));
+  int numRolls;
+  int numDice;
+
+  do {
+    printf("Enter a number of iterations(N): ");
+    scanf("%d", &numRolls);
+    if (numRolls <= 0) {
+      printf("**Invalid input, select a value > 0\n");
+    }
+  } while (numRolls <= 0);
+
+  do {
+    printf("Number of d6 on each roll (D): ");
+    scanf("%d", &numDice);
+    if (numDice <= 0) {
+      printf("**Invalid input, select a value > 0\n");
+    }
+  } while (numDice <= 0);
+
+  int maxSize = numDice * 6;
+  int *tally = (int *)calloc(maxSize, sizeof(int));
+  int sumOfArr = 0;
+
+  printf("Generating %d rolls...\n", numRolls);
+  for (int i = 0; i < numRolls; i++) {
+    int sum = 0;
+    for (int j = 0; j < numDice; j++) {
+      sum += (rand() % 6) + 1;
+    }
+    sumOfArr += sum;
+    tally[sum - 2] += 1;
+  }
+
+  printf("=================================\n");
+  for (int i = 0; i < maxSize - 1; i++) {
+    double percentage = ((double)tally[i] / numRolls) * 100;
+    printf("%02d -- %3d (%5.2f%%):", i + 2, tally[i], percentage);
+    for (int j = 0; j < (int)percentage; j++) {
+      printf("*");
+    }
+    printf("\n");
+  }
+  printf("=================================\n");
+
+  float mean = sumOfArr / maxSize;
+  float deviation = standardDeviation(tally, mean, maxSize, numRolls);
+  printf("Mean: %.2f Standard deviation: %.2f\n", mean, deviation);
+
+  free(tally);
+  return 0;
+}
+
+float standardDeviation(const unsigned int *scores, const float mean,
+                        const unsigned short count,
+                        const unsigned int numIterations) {
+  float summation = 0.0;
+
+  for (int i = 0; i < count; i++) {
+    float absoluteValue = abs(scores[i] - mean);
+    summation += powf(absoluteValue, 2);
+  }
+
+  return sqrtf(summation / numIterations);
+}
+-----------------------------------------------------------------------
+
+Enter a number of iterations(N): 5
+Number of d6 on each roll (D): 2
+Generating 5 rolls...
+=================================
+02 --   1 (20.00%):********************
+03 --   0 ( 0.00%):
+04 --   1 (20.00%):********************
+05 --   1 (20.00%):********************
+06 --   1 (20.00%):********************
+07 --   0 ( 0.00%):
+08 --   0 ( 0.00%):
+09 --   0 ( 0.00%):
+10 --   1 (20.00%):********************
+11 --   0 ( 0.00%):
+12 --   0 ( 0.00%):
+=================================
+Mean: 2.00 Standard deviation: 2.57
+
+==============================================
+PGM #2 Source Code #2
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef char stack_element_t;
+
+typedef struct stack_node {
+  stack_element_t element;
+  struct stack_node *restp;
+} stack_node_t;
+
+typedef struct {
+  stack_node_t *topp;
+} stack_t;
+
+void push(stack_t *sp, stack_element_t c);
+stack_element_t pop(stack_t *sp);
+
+int main(void) {
+  stack_t s = {NULL}; /* stack of characters - initially empty */
+  printf("Enter a string: ");
+  char c;
+
+  do {
+    c = getchar();
+    if (c == '\n') {
+      break;
+    }
+    push(&s, c);
+  } while (c != '\n');
+
+  printf("Reversed: ");
+
+  while (s.topp != NULL) {
+    printf("%c", pop(&s));
+  }
+  printf("\n");
+
+  return 0;
+}
+
+
+void push(stack_t *sp, stack_element_t c) {
+  stack_node_t *newp; /* pointer to new stack node */
+
+  /* Creates and defines new node */
+  newp = (stack_node_t *)malloc(sizeof(stack_node_t));
+  newp->element = c;
+  newp->restp = sp->topp;
+  /* Sets stack pointer to point to new node */
+  sp->topp = newp;
+}
+
+stack_element_t pop(stack_t *sp) {
+  stack_node_t *to_freep; /* pointer to node removed */
+  stack_element_t ans;    /* value at top of stack */
+
+  to_freep = sp->topp;        /* saves pointer to node being deleted */
+  ans = to_freep->element;    /* retrieves value to return */
+  sp->topp = to_freep->restp; /* deletes top node */
+  free(to_freep);             /* deallocates space */
+
+  return (ans);
+}
+
+-----------------------------------------------------------------------
+
+Enter a string: racecar
+Reversed: racecar
+
+==============================================
+PGM #3 Source Code
+-----------------------------------------------------------------------
+<PGM #3 Output goes here ... >
+==============================================

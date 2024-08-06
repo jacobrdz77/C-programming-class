@@ -1,0 +1,6 @@
+100 300 200 500
+4
+A1 grape-soda 1.25 5
+A2 gatorade 2.25 50
+B1 snickers 1.75 40
+B2 witergreen-gum 0.75 40

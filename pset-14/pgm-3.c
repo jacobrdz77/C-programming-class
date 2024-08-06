@@ -1,3 +1,101 @@
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define TYPED_ALLOC(type) (type *)malloc(sizeof(type))
+
+typedef struct tree_node_s {
+  int key;
+  struct tree_node_s *leftp, *rightp;
+} tree_node_t;
+
+tree_node_t *tree_insert(tree_node_t *rootp, int new_key);
+void tree_inorder(tree_node_t *rootp);
+
+int main() {
+  srand(time(NULL));
+  tree_node_t *root = NULL;
+
+  for (int i = 0; i < 50; i++) {
+    root = tree_insert(root, rand() % 1000);
+  }
+  tree_inorder(root);
+
+  return 0;
+}
+
+// This function must remove the node that matches the key from the binary tree
+// and returns a pointer to the root of the tree.
+tree_node_t *tree_remove(tree_node_t *root, int key, bool *const found) {
+  // TREE-DELETE(root, key, found)
+  //      if root == NIL
+  //          found = false
+  //          return root
+  //      elseif key < root.key
+  //          root.left = TREE-DELETE(root.left, key)
+  //          return root
+  //      elseif key > root.key
+  //          root.right = TREE-DELETE(root.right, key)
+  //          return root
+  //
+  //      found = true
+
+  //* Remove the node
+  //      cases 1 & 2
+  //      if root.left == NULL
+  //          temp = root.right
+  //          free root
+  //          return temp
+  //      elseif root.right == NULL
+  //          temp = root.left
+  //          free root
+  //          return temp
+  //      // case 3
+  //      else
+  //          parent = root
+  //          child = root.right
+  //          while child.left != NULL
+  //            parent = child
+  //            child = child.left
+
+  //          root.key = child.key
+  //          if (parent == root)
+  //            parent.right = child.right
+  //          else
+  //            parent.left = child.right
+
+  //          free child
+  //          return root
+};
+
+// Inserts a new key into the binary tree
+tree_node_t *tree_insert(tree_node_t *rootp, int new_key) {
+  if (rootp == NULL) {
+    rootp = TYPED_ALLOC(tree_node_t);
+    rootp->key = new_key;
+    rootp->leftp = NULL;
+    rootp->rightp = NULL;
+  } else if (new_key == rootp->key) {
+    // Already exists
+    return rootp;
+  } else if (new_key < rootp->key) {
+    rootp->leftp = tree_insert(rootp->leftp, new_key);
+  } else {
+    rootp->rightp = tree_insert(rootp->rightp, new_key);
+  }
+
+  return rootp;
+}
+
+void tree_inorder(tree_node_t *rootp) {
+  if (rootp == NULL)
+    return;
+  tree_inorder(rootp->leftp);
+  printf("%d ", rootp->key);
+  tree_inorder(rootp->rightp);
+}
+
 /*
 Program #3
 Binary Tree Pruning
